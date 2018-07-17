@@ -42,7 +42,18 @@ function runCommand(command, argument) {
         spotify
             .request('https://api.spotify.com/v1/search?type=track&limit=1&q=' + song)
             .then(function (data) {
-                console.log(JSON.stringify(data));
+                if (data.tracks.items.length) {
+                    var resource = data.tracks.items[0]
+
+                    var details = {
+                        Artist: resource.artists[0].name,
+                        Title: resource.name,
+                        PreviewURL: resource.preview_url,
+                        Album: resource.album.name
+                    }
+
+                    console.log(details);
+                }
             })
             .catch(function (error) {
                 console.error('Error occurred: ' + error);
